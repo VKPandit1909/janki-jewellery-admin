@@ -1,0 +1,49 @@
+.card-container .ant-card-head-title {
+    font-size: 16px;
+    color: #182531;
+    font-weight: 700;
+}
+.card-stats-item {
+    text-align: center;
+    padding: 5px 20px;
+}
+.card-stats-item-count {
+    line-height: 1;
+    margin-bottom: 12px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.card-stats-amount-count {
+    line-height: 1;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #556ee6;
+}
+.card-stats-item-label {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.mb-24 {
+    margin-bottom: 24px !important;
+}
+.view-more-btn {
+    text-decoration: none;
+    color: #fff;
+    background: #001529;
+    padding: 10px 15px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* CSS for Mobile Devices */
+@media only screen and (max-width: 600px) {
+    .card-stats-item {
+        padding: 0;
+    }
+}

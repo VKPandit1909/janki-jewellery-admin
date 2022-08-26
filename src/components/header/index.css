@@ -1,0 +1,22 @@
+.user-profile-img {
+    margin-right: 10px !important;
+}
+.user-profile-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+span[aria-label="caret-down"] {
+    font-size: 12px;
+}
+.profile-container {
+    display: inline-block
+}
+.header-container {
+    padding-left: 0 !important;
+    background-color: #fff !important;
+}
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
