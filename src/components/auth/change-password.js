@@ -9,11 +9,12 @@ const ChangePassword = () => {
       crossDomain: true,
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer "+window.localStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        token: window.localStorage.getItem("token"),
+        // token: window.localStorage.getItem("token"),
         password: values.password,
       }),
     })
