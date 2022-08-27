@@ -28,8 +28,9 @@ const items = [
     createMenuItem("Option 2", "2"),
   ]),
   createMenuItem("Products", "products", <ShoppingCartOutlined />, [
-    createMenuItem(<Link to={"/products"}>All Products</Link>, "/products"),
     createMenuItem(<Link to={"/add-product"}>Add Product</Link>, "/add-product"),
+    createMenuItem(<Link to={"/products"}>All Products</Link>, "/products"),
+    createMenuItem(<Link to={"/attributes"}>Attributes</Link>, "/attributes"),
     createMenuItem("Submenu", "sub3", null, [
       createMenuItem("Option 7", "5"),
       createMenuItem("Option 8", "6"),

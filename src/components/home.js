@@ -13,6 +13,8 @@ const Products = lazy(() => import("../pages/products"));
 const NotFound = lazy(() => import("./errors/404"));
 const Orders = lazy(() => import("../pages/orders"));
 const ChangePassword = lazy(() => import("./auth/change-password"));
+const Attributes = lazy(() => import("../pages/products/attributes"));
+const AddProduct = lazy(() => import("../pages/products/add-product"));
 
 const { Content } = Layout;
 
@@ -35,6 +37,8 @@ const Home = () => {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/add-product" element={<AddProduct />} />
+                <Route path="/attributes" element={<Attributes />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
