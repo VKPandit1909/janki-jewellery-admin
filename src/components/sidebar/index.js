@@ -38,7 +38,7 @@ const items = [
   ]),
   createMenuItem("Categories", "categories", <PartitionOutlined />, [
     createMenuItem(<Link to={"/add-category"}>Add Category</Link>, "/add-category"),
-    createMenuItem(<Link to={"/View-categories"}>View Categories</Link>, "/view-categories"),
+    createMenuItem(<Link to={"/view-categories"}>View Categories</Link>, "/view-categories"),
   ]),
   createMenuItem("Customers", "customers", <TeamOutlined />, [
     createMenuItem("Option 9", "7"),

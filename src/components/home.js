@@ -13,6 +13,8 @@ const Products = lazy(() => import("../pages/products"));
 const NotFound = lazy(() => import("./errors/404"));
 const Orders = lazy(() => import("../pages/orders"));
 const ChangePassword = lazy(() => import("./auth/change-password"));
+const AddCategory= lazy(() => import("../pages/categories/add-category"));
+const ViewCategories= lazy(() => import("../pages/categories/view-categories"));
 const Attributes = lazy(() => import("../pages/products/attributes"));
 const AddProduct = lazy(() => import("../pages/products/add-product"));
 
@@ -36,6 +38,8 @@ const Home = () => {
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/change-password" element={<ChangePassword />} />
+                <Route path="/add-category" element={<AddCategory />} />
+                <Route path="/view-categories" element={<ViewCategories />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/add-product" element={<AddProduct />} />
                 <Route path="/attributes" element={<Attributes />} />
