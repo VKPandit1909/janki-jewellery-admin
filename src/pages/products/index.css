@@ -3,11 +3,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 .flex-evenly {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    flex-wrap: wrap;
 }
 .d-block {
     display: block;
@@ -53,6 +55,9 @@
 .m-tb-10 {
     margin: 10px 0px;
 }
+.mr-20 {
+    margin-right: 20px;
+}
 .attr-title {
     font-weight: 700;
     text-transform: uppercase;
@@ -67,10 +72,11 @@
     font-weight: 700;
 }
 .dlt-btn {
-    padding: 12px;
+    padding: 10px 12px;
     background: #ececec;
     border-radius: 50%;
     color: black;
+    cursor: pointer;
 }
 .dlt-btn:hover {
     background-color: #001529;
@@ -79,4 +85,11 @@
 .dlt-container {
     margin-top: 30px;
     width: fit-content;
+}
+.dlt-handler {
+    padding: 3px 6px;
+    margin: 0;
+}
+.variation-container span.ant-collapse-header-text {
+    font-weight: 500;
 }

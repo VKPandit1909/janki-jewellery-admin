@@ -1,10 +1,11 @@
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Card, message, Popconfirm, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./index.css";
 
-const Products = (props) => {
+const ViewProduct = () => {
+  const { id: product_id } = useParams();
   const [dataSource, setDataSource] = useState([]);
   const columns = [
     {
@@ -28,15 +29,17 @@ const Products = (props) => {
       dataIndex: "action",
       render: (_, record) =>
         dataSource.length >= 1 ? (
-          <div
-           className="flex-evenly"
-           >
-            <Link to={"/products/single/"+record.id} className="dlt-btn"><EyeOutlined /></Link>
+          <div className="flex-evenly">
+            <a className="dlt-btn">
+              <EyeOutlined />
+            </a>
             <Popconfirm
               title="Sure to delete?"
               onConfirm={() => handleDelete(record.id)}
             >
-              <a className="dlt-btn"><DeleteOutlined /></a>
+              <a className="dlt-btn">
+                <DeleteOutlined />
+              </a>
             </Popconfirm>
           </div>
         ) : null,
@@ -71,8 +74,8 @@ const Products = (props) => {
       });
   };
 
-  const getProducts = useCallback( async() => {
-    fetch("http://localhost:5001/admin/products/view", {
+  const getProducts = useCallback(async () => {
+    fetch("http://localhost:5001/admin/products/single/"+product_id, {
       method: "GET",
       crossDomain: true,
       headers: {
@@ -91,25 +94,24 @@ const Products = (props) => {
           message.error("Error deleting the attributes");
         }
       });
-  },[]);
+  }, []);
 
   useEffect(() => {
     getProducts();
-  },[]);
+  }, []);
 
   return (
     <div className="mt-40">
       <div className="d-block">
         <h2 className="section-title">All Products</h2>
-        <p className="section-lead">You have total {dataSource.length} Products</p>
+        <p className="section-lead">
+          You have total {dataSource.length} Products
+        </p>
       </div>
       <Card title="Products" className="main-attr-container">
-        <Table
-          columns={columns}
-          dataSource={dataSource}
-        />
+        <Table columns={columns} dataSource={dataSource} />
       </Card>
     </div>
   );
 };
-export default Products;
+export default ViewProduct;
