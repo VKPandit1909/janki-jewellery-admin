@@ -4,8 +4,8 @@ import {
   StarOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import { Card, Col, Row, Table } from "antd";
-import React from "react";
+import { Card, Col, message, Row, Table } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SmallCard from "../../components/card/small_card";
 import "./index.css";
@@ -49,7 +49,7 @@ const data = [
     total_product: "Products",
     total_amount: "100",
     delivery_status: "Pending",
-    payment_status: "Success"
+    payment_status: "Success",
   },
   {
     key: 2,
@@ -59,7 +59,7 @@ const data = [
     total_product: "1233 Products",
     total_amount: "100",
     delivery_status: "Pending",
-    payment_status: "Success"
+    payment_status: "Success",
   },
   {
     key: 3,
@@ -69,11 +69,36 @@ const data = [
     total_product: "100 Products",
     total_amount: "100",
     delivery_status: "Pending",
-    payment_status: "Success"
+    payment_status: "Success",
   },
 ];
 
 const Dashboard = () => {
+  const [data, setData] = useState(null);
+  const getDashboardData = useCallback(async () => {
+    fetch("http://localhost:5001/admin/dashboard", {
+      method: "GET",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result, "results");
+        if (result.status == "ok") {
+          setData(result.data);
+        } else {
+          message.error("Error fetching the details");
+        }
+      });
+  }, []);
+  useEffect(() => {
+    getDashboardData();
+  }, []);
   return (
     <section>
       <div className="site-card-wrapper">
@@ -86,7 +111,16 @@ const Dashboard = () => {
             <SmallCard label="Sale" value="$10.00" icon="$" />
           </Col>
           <Col span={6} md={6} sm={12} xs={24}>
-            <SmallCard label="Product" value="2" icon="P" />
+            <SmallCard
+              label="Product"
+              value={
+                data == null
+                  ? 0
+                  : data.find((item) => item.table_name == "products")
+                      .table_rows
+              }
+              icon="P"
+            />
           </Col>
           <Col span={6} md={6} sm={12} xs={24}>
             <SmallCard label="Customer" value="24" icon={<TeamOutlined />} />
@@ -128,7 +162,12 @@ const Dashboard = () => {
           <Col span={6} md={6} sm={12} xs={24}>
             <SmallCard
               label="Total Categories"
-              value="24"
+              value={
+                data == null
+                  ? 0
+                  : data.find((item) => item.table_name == "categories")
+                      .table_rows
+              }
               icon={<AppstoreOutlined />}
             />
           </Col>

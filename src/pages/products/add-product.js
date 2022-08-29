@@ -52,6 +52,14 @@ const AddProduct = () => {
         gallery_image: "images",
         refundable: values.refundable == undefined || values.refundable ? 0 : 1,
         cod: values.cod == undefined || values.cod ? 0 : 1,
+        product_type: productType,
+        price:
+          productType == "simple" || productType == "personalized"
+            ? JSON.stringify({
+                price: values.price,
+                special_price: values.special_price,
+              })
+            : null,
         product_variation: JSON.stringify(attributesVals),
         multiple_tax: values.tax,
         product_desc: values.description,
@@ -217,19 +225,19 @@ const AddProduct = () => {
         newData[foundIndex].title = val;
         setAttributesVals(newData);
       }
-    } else if(type[0] == "value") {
+    } else if (type[0] == "value") {
       // console.log(foundIndex);
       var newData = [...attributesVals];
       newData[foundIndex].value = val;
       setAttributesVals(newData);
       // console.log(attributesVals);
-    } else if(type[0] == "price") {
+    } else if (type[0] == "price") {
       // console.log(foundIndex);
       var newData = [...attributesVals];
       newData[foundIndex].price = val;
       setAttributesVals(newData);
       // console.log(attributesVals);
-    } else if(type[0] == "special_price") {
+    } else if (type[0] == "special_price") {
       // console.log(foundIndex);
       var newData = [...attributesVals];
       newData[foundIndex].special_price = val;
@@ -557,7 +565,7 @@ const AddProduct = () => {
                           <Col span={12} md={12} xs={24}>
                             <Form.Item
                               label="Price"
-                              name={"price"}
+                              name={"price" + values.id}
                               rules={[
                                 {
                                   required: true,
@@ -565,15 +573,28 @@ const AddProduct = () => {
                                 },
                               ]}
                             >
-                              <Input type={"number"} onBlur={e => addAttr("price "+values.id,e.target.value)} />
+                              <Input
+                                type={"number"}
+                                onBlur={(e) =>
+                                  addAttr("price " + values.id, e.target.value)
+                                }
+                              />
                             </Form.Item>
                           </Col>
                           <Col span={12} md={12} xs={24}>
                             <Form.Item
                               label="Special Price"
-                              name={"special_price"}
+                              name={"special_price" + values.id}
                             >
-                              <Input type={"number"} onBlur={e => addAttr("special_price "+values.id,e.target.value)} />
+                              <Input
+                                type={"number"}
+                                onBlur={(e) =>
+                                  addAttr(
+                                    "special_price " + values.id,
+                                    e.target.value
+                                  )
+                                }
+                              />
                             </Form.Item>
                           </Col>
                         </Row>
