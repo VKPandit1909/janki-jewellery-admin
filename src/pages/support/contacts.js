@@ -2,7 +2,7 @@ import { Card, message, Rate, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import "./index.css";
 
-const Customers = () => {
+const Contacts = () => {
   const [dataSource, setDataSource] = useState([]);
   const columns = [
     {
@@ -11,20 +11,26 @@ const Customers = () => {
     },
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: "product_name",
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Username",
+      dataIndex: "username",
     },
     {
-      title: "Date Created",
-      dataIndex: "date",
-    }
+      title: "Comment",
+      dataIndex: "comment",
+    },
+    {
+      title: "Rating",
+      dataIndex: "rating",
+      render: (_, record) =>
+          <Rate allowHalf disabled defaultValue={record.rating} />
+    },
   ];
 
-  const getCustomers = useCallback(async () => {
-    fetch("http://localhost:5001/admin/customers", {
+  const getProductReviews = useCallback(async () => {
+    fetch("http://localhost:5001/admin/products/reviews", {
       method: "GET",
       crossDomain: true,
       headers: {
@@ -40,27 +46,27 @@ const Customers = () => {
         if (result.status == "ok") {
           setDataSource(result.data);
         } else {
-          message.error("Error fetching the customers");
+          message.error("Error fetching the reviews");
         }
       });
   }, []);
 
   useEffect(() => {
-    getCustomers();
+    getProductReviews();
   }, []);
 
   return (
     <div className="mt-40">
       <div className="d-block">
-        <h2 className="section-title">All Customers</h2>
+        <h2 className="section-title">All Queries</h2>
         <p className="section-lead">
-          You have total {dataSource.length} Customers
+          You have total {dataSource.length} Queries
         </p>
       </div>
-      <Card title="Customers" className="main-attr-container">
+      <Card title="Customer Queries" className="main-attr-container">
         <Table columns={columns} dataSource={dataSource} />
       </Card>
     </div>
   );
 };
-export default Customers;
+export default Contacts;

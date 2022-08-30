@@ -1,0 +1,5 @@
+@import "../products/index.css";
+
+.ant-table-cell img {
+    height: 100px;
+}

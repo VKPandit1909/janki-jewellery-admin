@@ -91,7 +91,7 @@ const ViewProduct = () => {
         if (result.status == "ok") {
           setDataSource(result.data);
         } else {
-          message.error("Error deleting the attributes");
+          message.error("Error fetching the products");
         }
       });
   }, []);

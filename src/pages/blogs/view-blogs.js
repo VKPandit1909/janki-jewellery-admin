@@ -1,10 +1,10 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Card, message, Popconfirm, Table, Image } from "antd";
+import { Card, message, Popconfirm, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import "./index.css";
 
-const ViewCategories = () => {
-  const [dataSource, setDataSource] = useState(null);
+const ViewBlogs = () => {
+  const [dataSource, setDataSource] = useState([]);
   const columns = [
     {
       title: "#",
@@ -12,31 +12,28 @@ const ViewCategories = () => {
     },
     {
       title: "Title",
-      dataIndex: "category_title",
+      dataIndex: "title",
     },
     {
-      title: "Priority Order",
-      dataIndex: "category_priority",
+      title: "Content",
+      dataIndex: "content",
+      render: (_, record) => 
+      <div
+      dangerouslySetInnerHTML={{
+        __html: record.content
+      }}></div>
+      
     },
     {
-      title: "Banner",
-      dataIndex: "category_banner",
-      render: (_,record) => {
-        console.log("http://localhost:5001/uploads/"+record.category_banner);
-        // <div>
-          return <Image width={100} src={"http://localhost:5001/uploads/"+record.category_banner} />
-        // </div>
-      }
+      title: "Date",
+      dataIndex: "date",
     },
     {
       title: "Action",
       dataIndex: "action",
       render: (_, record) =>
         dataSource.length >= 1 ? (
-          <div
-        //    className="flex-evenly"
-           >
-            {/* <div className="dlt-btn"><EditOutlined /></div> */}
+          <div>
             <Popconfirm
               title="Sure to delete?"
               onConfirm={() => handleDelete(record.id)}
@@ -49,7 +46,7 @@ const ViewCategories = () => {
   ];
 
   const getCategories = useCallback(async () => {
-    fetch("http://localhost:5001/admin/categories/view", {
+    fetch("http://localhost:5001/admin/blogs/view", {
       method: "GET",
       crossDomain: true,
       headers: {
@@ -77,7 +74,7 @@ const ViewCategories = () => {
   }, [getCategories]);
 
   const handleDelete = (id) => {
-    fetch("http://localhost:5001/admin/categories/delete", {
+    fetch("http://localhost:5001/admin/blogs/delete", {
       method: "POST",
       crossDomain: true,
       headers: {
@@ -95,11 +92,11 @@ const ViewCategories = () => {
         console.log(data);
         console.log(data.status, "status");
         if (data.status == "ok") {
-          message.success("Deleted Attribute Succesfully.");
+          message.success("Deleted Blogs Succesfully.");
           const newData = dataSource.filter((item) => item.id !== id);
           setDataSource(newData);
         } else {
-          message.error("Error deleting the attributes");
+          message.error("Error deleting the blogs");
         }
       });
   };
@@ -107,10 +104,10 @@ const ViewCategories = () => {
   return (
     <div className="mt-40">
       <div className="d-block">
-        <h2 className="section-title">All Categories</h2>
-        <p className="section-lead">You have total {dataSource == null ? 0 : dataSource.length} Categories</p>
+        <h2 className="section-title">All Blogs</h2>
+        <p className="section-lead">You have total {dataSource.length} Blogs</p>
       </div>
-      <Card title="Attributes" className="main-attr-container">
+      <Card title="Blogs" className="main-attr-container">
         <Table
           columns={columns}
           dataSource={dataSource}
@@ -119,4 +116,4 @@ const ViewCategories = () => {
     </div>
   );
 };
-export default ViewCategories;
+export default ViewBlogs;

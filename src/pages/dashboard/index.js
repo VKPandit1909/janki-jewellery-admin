@@ -40,7 +40,7 @@ const columns = [
     dataIndex: "payment_status",
   },
 ];
-const data = [
+const dataSource = [
   {
     key: 1,
     serial_num: "1",
@@ -123,7 +123,12 @@ const Dashboard = () => {
             />
           </Col>
           <Col span={6} md={6} sm={12} xs={24}>
-            <SmallCard label="Customer" value="24" icon={<TeamOutlined />} />
+            <SmallCard label="Customer" value={
+                data == null
+                  ? 0
+                  : data.find((item) => item.table_name == "users")
+                      .table_rows
+              } icon={<TeamOutlined />} />
           </Col>
         </Row>
       </div>
@@ -204,7 +209,7 @@ const Dashboard = () => {
           }
           className="card-container mb-24"
         >
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={dataSource} />
         </Card>
       </div>
     </section>

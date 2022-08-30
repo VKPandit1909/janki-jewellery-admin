@@ -31,17 +31,18 @@ const items = [
     createMenuItem(<Link to={"/add-product"}>Add Product</Link>, "/add-product"),
     createMenuItem(<Link to={"/products"}>All Products</Link>, "/products"),
     createMenuItem(<Link to={"/attributes"}>Attributes</Link>, "/attributes"),
-    createMenuItem("Submenu", "sub3", null, [
-      createMenuItem("Option 7", "5"),
-      createMenuItem("Option 8", "6"),
-    ]),
+    createMenuItem(<Link to={"/product-reviews"}>Product Reviews</Link>, "/product-reviews"),
+    // createMenuItem("Submenu", "sub3", null, [
+    //   createMenuItem("Option 7", "5"),
+    //   createMenuItem("Option 8", "6"),
+    // ]),
   ]),
   createMenuItem("Categories", "categories", <PartitionOutlined />, [
     createMenuItem(<Link to={"/add-category"}>Add Category</Link>, "/add-category"),
     createMenuItem(<Link to={"/view-categories"}>View Categories</Link>, "/view-categories"),
   ]),
   createMenuItem("Customers", "customers", <TeamOutlined />, [
-    createMenuItem("Option 9", "7"),
+    createMenuItem(<Link to={"/customers"}>All Customers</Link>, "/customers"),
   ]),
   createMenuItem("Refunds", "refunds", <WalletOutlined />, [
     createMenuItem("Option 9", "8"),
@@ -53,13 +54,16 @@ const items = [
     createMenuItem("Option 9", "10"),
   ]),
   createMenuItem("Blogs", "blogs", <BookOutlined />, [
-    createMenuItem("Option 9", "11"),
+    createMenuItem(<Link to={"/add-blog"}>Add Blog</Link>, "/add-blog"),
+    createMenuItem(<Link to={"/view-blogs"}>View Blogs</Link>, "/view-blogs"),
   ]),
   createMenuItem("Marketing", "marketing", <BarChartOutlined />, [
     createMenuItem("Option 9", "12"),
   ]),
   createMenuItem("Support", "support", <CustomerServiceOutlined />, [
-    createMenuItem("Option 9", "13"),
+    createMenuItem(<Link to={"/contacts"}>Contact Us</Link>, "/contacts"),
+    createMenuItem(<Link to={"/contact-subject"}>Contact Subject</Link>, "/contact-subject"),
+    createMenuItem(<Link to={"/tidio"}>Tidio</Link>, "/tidio"),
   ]),
   createMenuItem("System Settings", "system", <SettingOutlined />, [
     createMenuItem("Option 9", "14"),

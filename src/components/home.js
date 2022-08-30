@@ -20,6 +20,14 @@ const Attributes = lazy(() => import("../pages/products/attributes"));
 const AddProduct = lazy(() => import("../pages/products/add-product"));
 const Products = lazy(() => import("../pages/products"));
 const ViewProduct = lazy(() => import("../pages/products/view-product"));
+const ProductReviews = lazy(() => import("../pages/products/product-reviews"));
+const Customers = lazy(() => import("../pages/customers"));
+const AddBlogs = lazy(() => import("../pages/blogs/add-blogs"));
+const ViewBlogs = lazy(() => import("../pages/blogs/view-blogs"));
+const ContactSubjects = lazy(() =>
+  import("../pages/support/contact-subject-list")
+);
+const Tidio = lazy(() => import("../pages/support/tidio"));
 
 const { Content } = Layout;
 
@@ -46,8 +54,14 @@ const Home = () => {
                 <Route path="/add-product" element={<AddProduct />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/products/single/:id" element={<ViewProduct />} />
+                <Route path="/product-reviews" element={<ProductReviews />} />
                 <Route path="/attributes" element={<Attributes />} />
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/customers" element={<Customers />} />
+                <Route path="/add-blog" element={<AddBlogs />} />
+                <Route path="/view-blogs" element={<ViewBlogs />} />
+                <Route path="/contact-subject" element={<ContactSubjects />} />
+                <Route path="/tidio" element={<Tidio />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

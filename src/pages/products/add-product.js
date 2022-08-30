@@ -53,13 +53,10 @@ const AddProduct = () => {
         refundable: values.refundable == undefined || values.refundable ? 0 : 1,
         cod: values.cod == undefined || values.cod ? 0 : 1,
         product_type: productType,
-        price:
-          productType == "simple" || productType == "personalized"
-            ? JSON.stringify({
-                price: values.price,
-                special_price: values.special_price,
-              })
-            : null,
+        price: JSON.stringify({
+          price: values.price,
+          special_price: values.special_price,
+        }),
         product_variation: JSON.stringify(attributesVals),
         multiple_tax: values.tax,
         product_desc: values.description,
@@ -400,25 +397,21 @@ const AddProduct = () => {
                       </Select.Option>
                     </Select>
                   </Form.Item>
-                  {productType == "simple" || productType == "personalized" ? (
-                    <div>
-                      <Form.Item
-                        label="Price"
-                        name={"price"}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input product price!",
-                          },
-                        ]}
-                      >
-                        <Input type={"number"} />
-                      </Form.Item>
-                      <Form.Item label="Special Price" name={"special_price"}>
-                        <Input type={"number"} />
-                      </Form.Item>
-                    </div>
-                  ) : null}
+                  <Form.Item
+                    label="Price"
+                    name={"price"}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input product price!",
+                      },
+                    ]}
+                  >
+                    <Input type={"number"} />
+                  </Form.Item>
+                  <Form.Item label="Special Price" name={"special_price"}>
+                    <Input type={"number"} />
+                  </Form.Item>
                   <Form.Item>
                     <Button
                       type="primary"

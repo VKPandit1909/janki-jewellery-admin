@@ -1,39 +1,36 @@
 import { Button, Card, Col, Form, Input, message, Row } from "antd";
 import React, { useState } from "react";
-import UploadImage from "../../components/upload";
+// Text Editor
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import "./index.css";
 
-const AddCategory = () => {
+const AddBlogs = () => {
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState([]);
+  const [value, setValue] = useState("");
   function onReset() {
     form.resetFields();
   }
   const onFinish = (values) => {
-    console.log(values);
-    const formData = new FormData();
-    fileList.forEach((file) => {
-      formData.append("image_file", file);
-    });
-    formData.append("title", values.title);
-    formData.append("priority", values.priority);
-    fetch("http://localhost:5001/admin/categories/add", {
+    console.log(values,value);
+    fetch("http://localhost:5001/admin/blogs/add", {
       method: "POST",
       crossDomain: true,
       headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
         Authorization: "Bearer " + window.localStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
       },
-      body: formData,
+      body: JSON.stringify(values),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         console.log(data.status, "status");
         if (data.status == "ok") {
-          message.success("Added Category Succesfully.");
+          message.success("Added Blogs Succesfully.");
           onReset();
-          // window.location.reload();
         } else {
           message.error(data.error);
         }
@@ -44,20 +41,15 @@ const AddCategory = () => {
     message.error(errorInfo);
     console.log("Failed:", errorInfo);
   };
-
-  const getFile = (file) => {
-    console.log(file);
-    setFileList(file);
-  };
   return (
     <div>
       <div className="d-block">
-        <h2 className="section-title">Add Category</h2>
+        <h2 className="section-title">Add Blog</h2>
       </div>
-      <Card title="Add Category" className="attribute-container">
+      <Card title="Add Blog" className="attribute-container">
         <Form
           form={form}
-          name={"add_category"}
+          name={"add_blog"}
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
           initialValues={{ remember: true }}
@@ -65,33 +57,54 @@ const AddCategory = () => {
           onFinishFailed={onFinishFailed}
         >
           <Row gutter={24}>
-            <Col span={12} md={12} xs={24}>
+            <Col span={24}>
               <Form.Item
                 label="Title"
                 name={"title"}
                 rules={[
-                  { required: true, message: "Please input category title!" },
+                  { required: true, message: "Please input blog title!" },
                 ]}
               >
                 <Input placeholder="Title" />
               </Form.Item>
             </Col>
-            <Col span={12} md={12} xs={24}>
+            <Col span={24}>
               <Form.Item
-                label="Priority Order"
-                name={"priority"}
+                label="Content"
+                name={"content"}
                 rules={[
                   {
                     required: true,
-                    message: "Please input category priority!",
+                    message: "Please input blog content!",
                   },
                 ]}
               >
-                <Input placeholder="Priority Order" />
+                <ReactQuill
+                  theme="snow"
+                  value={value}
+                  onChange={setValue}
+                  modules={{
+                    toolbar: {
+                      container: [
+                        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                        ["bold", "italic", "underline", "strike", "blockquote"],
+                        [
+                          { list: "ordered" },
+                          { list: "bullet" },
+                          { indent: "-1" },
+                          { indent: "+1" },
+                        ],
+                        [{ align: [] }],
+                        ["link", "image", "video"],
+                        ["clean"],
+                        [{ color: [] }],
+                      ],
+                    },
+                  }}
+                />
               </Form.Item>
             </Col>
           </Row>
-          <UploadImage getFile={getFile} maxCount={1} />
           <Form.Item>
             <Button
               type="primary"
@@ -106,4 +119,4 @@ const AddCategory = () => {
     </div>
   );
 };
-export default AddCategory;
+export default AddBlogs;
