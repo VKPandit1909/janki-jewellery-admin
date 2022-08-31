@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Layout,
   Row,
@@ -52,6 +52,10 @@ const menu = (
   />
 );
 const CustomisedHeader = (props) => {
+  const [username, setUsername] = useState("");
+  useEffect(()=> {
+    setUsername(window.localStorage.getItem("fullname").split(" ")[0]);
+  },[])
   return (
     <Header className="site-layout-background header-container sticky-header">
       <Row>
@@ -77,7 +81,7 @@ const CustomisedHeader = (props) => {
           >
             <div>
               <Avatar icon={<UserOutlined />} className="user-profile-img" />
-              <label className="user-profile-name">Karan</label>{" "}
+              <label className="user-profile-name">{username}</label>{" "}
               <CaretDownOutlined size={12} />
             </div>
           </Dropdown>

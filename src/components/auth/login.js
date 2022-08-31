@@ -20,16 +20,18 @@ const Login = () => {
       body: JSON.stringify(values),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        console.log(data.status, "status");
-        if (data.status == "ok") {
+      .then((results) => {
+        console.log(results);
+        console.log(results.status, "status");
+        if (results.status == "ok") {
           message.success("Signing in...");
           window.localStorage.setItem("isLoggedIn", true);
-          window.localStorage.setItem("token", data.data);
+          window.localStorage.setItem("token", results.data.token);
+          window.localStorage.setItem("fullname", results.data.result[0].fullname);
+          window.localStorage.setItem("usertype", results.data.result[0].type);
           window.location.href = "/";
         } else {
-          message.error(data.error);
+          message.error(results.error);
         }
       });
   };

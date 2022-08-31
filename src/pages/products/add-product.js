@@ -50,8 +50,8 @@ const AddProduct = () => {
         product_tags: values.tags,
         stock: values.stock,
         gallery_image: "images",
-        refundable: values.refundable == undefined || values.refundable ? 0 : 1,
-        cod: values.cod == undefined || values.cod ? 0 : 1,
+        refundable: values.refundable == undefined || values.refundable ? 1 : 0,
+        cod: values.cod == undefined || values.cod ? 1 : 0,
         product_type: productType,
         price: JSON.stringify({
           price: values.price,
@@ -210,7 +210,7 @@ const AddProduct = () => {
   // Add Attribute
   const [attributesVals, setAttributesVals] = useState([]);
   const addAttr = (type, val) => {
-    // console.log(type, val);
+    console.log(type, val);
     type = type.split(" ");
     var foundIndex = attributesVals.findIndex((vals) => vals.id == type[1]);
     if (type[0] == "title") {
@@ -223,30 +223,97 @@ const AddProduct = () => {
         setAttributesVals(newData);
       }
     } else if (type[0] == "value") {
+      var data = [];
+      val.forEach((attrVal) => {
+        data.push({ value: attrVal });
+      });
+      // console.log(foundIndex, data);
+      var newData = [...attributesVals];
+      newData[foundIndex].value = data;
+      setAttributesVals(newData);
+    }
+  };
+  const addAttrPrice = (type, title, val) => {
+    type = type.split(" ");
+    var foundIndex = attributesVals.findIndex((vals) => vals.title == title);
+    if (type[0] == "price") {
       // console.log(foundIndex);
       var newData = [...attributesVals];
-      newData[foundIndex].value = val;
+      newData[foundIndex].value[type[1]].price = val;
       setAttributesVals(newData);
-      // console.log(attributesVals);
-    } else if (type[0] == "price") {
-      // console.log(foundIndex);
-      var newData = [...attributesVals];
-      newData[foundIndex].price = val;
-      setAttributesVals(newData);
-      // console.log(attributesVals);
+      console.log(attributesVals);
     } else if (type[0] == "special_price") {
       // console.log(foundIndex);
       var newData = [...attributesVals];
-      newData[foundIndex].special_price = val;
+      newData[foundIndex].value[type[1]].special_price = val;
       setAttributesVals(newData);
-      // console.log(attributesVals);
+      console.log(attributesVals);
     }
   };
   // Save Attributes
   // const [isDisabled, setIsDisabled] = useState(false);
   const saveAttr = () => {
+    console.log(attributesVals);
     // setIsDisabled(true);
     message.success("Attributes Saved Succesfully.");
+  };
+
+  const showVariation = (priceDetails, title, titleId) => {
+    return priceDetails.map((titleVal, index) => {
+      return (
+        <Collapse key={index} className="site-collapse-custom-collapse">
+          <Panel
+            header={title + " : " + titleVal.value}
+            key={index}
+            className="site-collapse-custom-panel variation-container"
+            // extra={
+            //   <p
+            //     className="dlt-btn dlt-handler"
+            //     onClick={() => handleDelete(values.id)}
+            //   >
+            //     <DeleteOutlined />
+            //   </p>
+            // }
+          >
+            <Row gutter={24}>
+              <Col span={12} md={12} xs={24}>
+                <Form.Item
+                  label="Price"
+                  name={"price" + index + " " + titleId}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input product price!",
+                    },
+                  ]}
+                >
+                  <Input
+                    type={"number"}
+                    onBlur={(e) =>
+                      addAttrPrice("price " + index + " " + titleId, title, e.target.value)
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12} md={12} xs={24}>
+                <Form.Item label="Special Price" name={"special_price" + index + " " + titleId}>
+                  <Input
+                    type={"number"}
+                    onBlur={(e) =>
+                      addAttrPrice(
+                        "special_price " + index + " " + titleId,
+                        title,
+                        e.target.value
+                      )
+                    }
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Panel>
+        </Collapse>
+      );
+    });
   };
   return (
     <div>
@@ -288,7 +355,6 @@ const AddProduct = () => {
               >
                 <Select onChange={(val) => console.log(val)}>
                   {category.map((val, index) => {
-                    console.log(val);
                     return (
                       <Select.Option key={index} value={val.category_title}>
                         {val.category_title}
@@ -506,6 +572,7 @@ const AddProduct = () => {
                           ]}
                         >
                           <Select
+                            mode="multiple"
                             onChange={(selectVal) =>
                               addAttr("value " + val, selectVal)
                             }
@@ -536,64 +603,9 @@ const AddProduct = () => {
             {type && productType == "variable" ? (
               <TabPane key={"3"} tab="Variations">
                 {attributesVals.map((values, index) => {
-                  return (
-                    <Collapse
-                      key={index}
-                      className="site-collapse-custom-collapse"
-                    >
-                      <Panel
-                        header={values.title + " : " + values.value}
-                        key={index}
-                        className="site-collapse-custom-panel variation-container"
-                        // extra={
-                        //   <p
-                        //     className="dlt-btn dlt-handler"
-                        //     onClick={() => handleDelete(values.id)}
-                        //   >
-                        //     <DeleteOutlined />
-                        //   </p>
-                        // }
-                      >
-                        <Row gutter={24}>
-                          <Col span={12} md={12} xs={24}>
-                            <Form.Item
-                              label="Price"
-                              name={"price" + values.id}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Please input product price!",
-                                },
-                              ]}
-                            >
-                              <Input
-                                type={"number"}
-                                onBlur={(e) =>
-                                  addAttr("price " + values.id, e.target.value)
-                                }
-                              />
-                            </Form.Item>
-                          </Col>
-                          <Col span={12} md={12} xs={24}>
-                            <Form.Item
-                              label="Special Price"
-                              name={"special_price" + values.id}
-                            >
-                              <Input
-                                type={"number"}
-                                onBlur={(e) =>
-                                  addAttr(
-                                    "special_price " + values.id,
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </Form.Item>
-                          </Col>
-                        </Row>
-                      </Panel>
-                    </Collapse>
-                  );
+                  return values.value == undefined
+                    ? null
+                    : showVariation(values.value, values.title, values.id);
                 })}
               </TabPane>
             ) : null}
